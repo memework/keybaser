@@ -8,8 +8,9 @@ PREFIX = 'kb!'
 
 @client.event
 async def on_message(message):
-    if message.lower().startswith(PREFIX):
-        cmd = message[3:]
+    if message.content.lower().startswith(PREFIX):
+        cmd = message.content[3:]
+
         print(f"recv cmd {cmd}")
         if cmd == 'ping':
             tinit = time.monotonic()
