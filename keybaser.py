@@ -91,6 +91,22 @@ async def lookup(ctx, user : str, location : str = ''):
         await bot.say('```\n%s\n```' % traceback.format_exc())
 
 @is_owner()
+@bot.command
+async def change_avatar():
+    avatar_file = open('avatar.png', 'rb')
+
+    try:
+        await bot.edit_profile(avatar=avatar_file)
+    except discord.HTTPException:
+        await bot.say(":warning: Editing the profile failed.")
+    except discord.InvalidArgument:
+        await bot.say(":warning: Invalid Argument")
+    else:
+        await bot.say("Sucksés. :ok_hand:")
+
+    return
+
+@is_owner()
 @bot.command()
 async def shutdown():
     await bot.say(":wave: bye u bitch!!!!!!! :wave:")
