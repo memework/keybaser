@@ -48,13 +48,13 @@ async def lookup(ctx, user : str, location : str = ''):
         logger.error('lookup cmd', exc_info=True)
         return
 
-    logger.info("[lookup] %d bytes", len(res))
+    logger.info("[lookup] %d bytes", len(str(res)))
 
     if res is None:
         await bot.say("fuckfuckfuck this shouldn't happen")
         return
 
-    await bot.say("We got %d bytes from API" % len(res))
+    await bot.say("We got %d bytes from API" % len(str(res)))
 
 @is_owner()
 @bot.command()

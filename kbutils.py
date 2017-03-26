@@ -50,11 +50,9 @@ async def keybase_request(url, **kwargs):
     stcode = status['code']
 
     if stcode != 0:
-        # API gave up on us
         raise KeybaseError('{}: {}'.format(status['name'], status['desc']))
 
-    logger.info("[kbreq] length: %d", len(data))
-
+    logger.info("[kbreq] length: %d", len(content))
     return data
 
 async def kblookup(lookup_string, lookup_type='usernames'):
