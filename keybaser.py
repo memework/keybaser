@@ -65,7 +65,7 @@ async def lookup(ctx, user : str, location : str = ''):
         basics = userdata.get('basics')
         profile = userdata.get('profile')
         proofs = userdata.get('proofs_summary')
-        if basics is None or profile is None or pbkeys is None:
+        if basics is None or profile is None or proofs is None:
             await bot.say(":warning: Error getting data for the user `%s`" % user)
             return
 
