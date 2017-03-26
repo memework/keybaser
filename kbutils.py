@@ -3,6 +3,8 @@ import asyncio
 import json
 import urllib.parse
 import logging
+import hashlib
+import discord
 
 KB_API_URL = 'https://keybase.io/_/api/1.0/%s.json'
 
@@ -20,6 +22,9 @@ class AiohttpError(Exception):
 
 class KeybaseError(Exception):
     pass
+
+def mkcolor(string):
+    return discord.Colour(int(hashlib.md5(string.encode("utf-8")).hexdigest()[:6], 16))
 
 async def json_load(string):
     try:
@@ -50,7 +55,7 @@ async def keybase_request(url, **kwargs):
     stcode = status['code']
 
     if stcode != 0:
-        raise KeybaseError('{}: {}'.format(status['name'], status['desc']))
+        raise KeybaseError('%s: %s' % (status['name'], status['desc']))
 
     logger.info("[kbreq] length: %d", len(content))
     return data

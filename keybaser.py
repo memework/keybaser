@@ -36,7 +36,6 @@ async def lookup(ctx, user : str, location : str = ''):
     if len(location.strip()) < 1:
         location = None
 
-
     try:
         res = None
         if location is None:
@@ -54,12 +53,23 @@ async def lookup(ctx, user : str, location : str = ''):
         await bot.say("fuckfuckfuck this shouldn't happen")
         return
 
-    await bot.say("We got %d bytes from API" % len(str(res)))
+    try:
+        userdata = res['them'][0]
+        basics = userdata['basics']
+        username = basics['username']
+
+        em = discord.Embed(title=username, colour=utils.mkcolor(username))
+        em.set_thumbnail(url=userdata['pictures']['primary']['url'])
+        em.set_footer(text='%d bytes from API' % len(str(res)))
+
+        await bot.say(embed=em)
+    except:
+        await bot.say('```\n%s\n```' % traceback.format_exc())
 
 @is_owner()
 @bot.command()
 async def shutdown():
-    await bot.say("bye u bitch!!!!!!!")
+    await bot.say(":wave: bye u bitch!!!!!!! :wave:")
     await bot.logout()
 
 async def _say(m, string):
