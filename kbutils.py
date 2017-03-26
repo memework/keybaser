@@ -51,10 +51,15 @@ async def keybase_request(self, url, **kwargs):
         # API gave up on us
         raise KeybaseError('{}: {}'.format(status['name'], status['desc']))
 
+    logger.info("[kbreq] length: %d", len(data))
+
     return data
 
 async def kblookup(lookup_string, lookup_type='usernames'):
-    querystr = urllib.parse.urlencode({lookup_type, lookup_string})
+    print(lookup_type, lookup_string)
+    r = {lookup_type, lookup_string}
+    print(r, type(r))
+    querystr = urllib.parse.urlencode(r)
     url = f'{KB_LOOKUP_URL}?{querystr}'
     data = await keybase_request(url)
     return data

@@ -38,7 +38,7 @@ async def lookup(ctx, user : str, location : str = ''):
 
     res = None
     if location is None:
-        res = await utils.kblookup(user, location)
+        res = await utils.kblookup(user)
     else:
         res = await utils.kblookup(user, location)
 
