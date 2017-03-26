@@ -39,9 +39,9 @@ async def http_get(self, url, **kwargs):
         logger.error('http_get', exc_info=True)
         raise err
 
-async def keybase_request(self, url, **kwargs):
-    content = await self.http_get(url, **kwargs)
-    data = await self.json_load(content)
+async def keybase_request(url, **kwargs):
+    content = await http_get(url, **kwargs)
+    data = await json_load(content)
 
     # check the data for errors
     status = data['status']
@@ -56,9 +56,7 @@ async def keybase_request(self, url, **kwargs):
     return data
 
 async def kblookup(lookup_string, lookup_type='usernames'):
-    print(lookup_type, lookup_string)
     r = {lookup_type: lookup_string}
-    print(r, type(r))
     querystr = urllib.parse.urlencode(r)
     url = f'{KB_LOOKUP_URL}?{querystr}'
     data = await keybase_request(url)

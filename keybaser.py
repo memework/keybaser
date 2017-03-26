@@ -66,4 +66,6 @@ async def on_message(message):
     except Exception as err:
         await _say(message, "fuck, we got error: ```%s```" % (traceback.format_exc()))
 
+print("==run this shit==")
 bot.run(kb_config.token)
+print("\nrip me\n")
