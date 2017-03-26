@@ -57,7 +57,7 @@ async def keybase_request(self, url, **kwargs):
 
 async def kblookup(lookup_string, lookup_type='usernames'):
     print(lookup_type, lookup_string)
-    r = {lookup_type, lookup_string}
+    r = {lookup_type: lookup_string}
     print(r, type(r))
     querystr = urllib.parse.urlencode(r)
     url = f'{KB_LOOKUP_URL}?{querystr}'
