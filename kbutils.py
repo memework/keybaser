@@ -1,7 +1,7 @@
 import aiohttp
 import asyncio
 import json
-import urllib
+import urllib.parse
 import logging
 
 KB_API_URL = 'https://keybase.io/_/api/1.0/%s.json'
@@ -54,7 +54,7 @@ async def keybase_request(self, url, **kwargs):
     return data
 
 async def kblookup(lookup_string, lookup_type='usernames'):
-    querystr = urllib.urlencode((lookup_type, lookup_string))
+    querystr = urllib.parse.urlencode((lookup_type, lookup_string))
     url = f'{KB_LOOKUP_URL}?{querystr}'
     data = await keybase_request(url)
     return data

@@ -11,6 +11,9 @@ bot = commands.Bot(command_prefix=['kb!', 'Kb!', 'kB!', 'KB!'])
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('keybaser')
 
+def is_owner():
+    return commands.check(lambda ctx: ctx.message.author.id == kb_config.owner_id)
+
 @bot.event
 async def on_ready():
     print('!!READY!!')
@@ -46,6 +49,12 @@ async def lookup(ctx, user : str, location : str = ''):
         return
 
     await bot.say("We got %d bytes from API" % len(res))
+
+@is_owner()
+@bot.command()
+async def shutdown():
+    await bot.say("bye u bitch!!!!!!!")
+    await bot.logout()
 
 async def _say(m, string):
     await bot.send_message(m.channel, string)
