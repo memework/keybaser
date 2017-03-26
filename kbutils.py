@@ -28,7 +28,7 @@ async def json_load(string):
     except Exception as err:
         raise JSONError("Error parsing JSON data")
 
-async def http_get(self, url, **kwargs):
+async def http_get(url, **kwargs):
     timeout = kwargs.get('timeout', 5)
 
     try:
