@@ -1,8 +1,5 @@
 import time
-import json
-import aiohttp
 import traceback
-import asyncio
 import discord
 import kbutils as utils
 import logging
@@ -11,6 +8,8 @@ from discord.ext import commands
 import config as kb_config
 
 bot = commands.Bot(command_prefix=['kb!', 'Kb!', 'kB!', 'KB!'])
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger('keybaser')
 
 @bot.event
 async def on_ready():
@@ -33,7 +32,19 @@ async def ping(ctx):
 async def lookup(ctx, user : str, location : str = ''):
     if len(location.strip()) < 1:
         location = None
-    res = await utils.kblookup(user, location)
+
+    res = None
+    if location is None:
+        res = await utils.kblookup(user, location)
+    else:
+        res = await utils.kblookup(user, location)
+
+    logger.info("[lookup] %d bytes", len(res))
+
+    if res is None:
+        await bot.say("fuckfuckfuck this shouldn't happen")
+        return
+
     await bot.say("We got %d bytes from API" % len(res))
 
 async def _say(m, string):
