@@ -55,10 +55,14 @@ async def lookup(ctx, user : str, location : str = ''):
 
     try:
         userdata = res['them'][0]
-        basics = userdata['basics']
-        username = basics['username']
+        basics = userdata.get('basics')
+        if basics is None:
+            await bot.say(":warning: Error getting basic data for the user `%s`" % user)
+            return
 
+        username = basics['username']
         em = discord.Embed(title=username, colour=utils.mkcolor(username))
+
         em.set_thumbnail(url=userdata['pictures']['primary']['url'])
         em.set_footer(text='%d bytes from API' % len(str(res)))
 

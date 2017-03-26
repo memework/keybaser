@@ -55,6 +55,7 @@ async def keybase_request(url, **kwargs):
     stcode = status['code']
 
     if stcode != 0:
+        print(data, status)
         raise KeybaseError('%s: %s' % (status['name'], status['desc']))
 
     logger.info("[kbreq] length: %d", len(content))
