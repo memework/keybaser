@@ -11,7 +11,7 @@ bot = commands.Bot(command_prefix=['kb!', 'Kb!', 'kB!', 'KB!'])
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('keybaser')
 
-_fields = ['basics', 'profile', 'proofs_summary']
+_fields = ['basics', 'profile', 'proofs_summary', 'pictures']
 
 def is_owner():
     return commands.check(lambda ctx: ctx.message.author.id == kb_config.owner_id)
@@ -72,12 +72,19 @@ async def lookup(ctx, user : str, location : str = ''):
         username = basics['username']
         em = discord.Embed(title=username, colour=utils.mkcolor(username))
 
+        em.set_thumbnail(url=userdata['pictures']['primary']['url'])
+        em.set_footer(text='userid %s, got %d bytes from API' % (user_id, len(str(res))))
+
         em.add_field(name='Name', value=profile['full_name'])
         em.add_field(name='Location', value=profile['location'])
         em.add_field(name='Bio', value=profile['bio'])
 
-        em.set_thumbnail(url=userdata['pictures']['primary']['url'])
-        em.set_footer(text='userid %s, got %d bytes from API' % (user_id, len(str(res))))
+        # proofs
+        for proof_key in proofs['by_proof_type']:
+            proof = proofs['by_proof_type'][proof_key][0]
+
+            em.add_field(name='{}'.format(proof_key.capitalize()), \
+                value='[{}]({})'.format(proof['nametag'], proof['proof_url']))
 
         await bot.say(embed=em)
     except:
