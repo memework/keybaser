@@ -36,11 +36,17 @@ async def lookup(ctx, user : str, location : str = ''):
     if len(location.strip()) < 1:
         location = None
 
-    res = None
-    if location is None:
-        res = await utils.kblookup(user)
-    else:
-        res = await utils.kblookup(user, location)
+
+    try:
+        res = None
+        if location is None:
+            res = await utils.kblookup(user)
+        else:
+            res = await utils.kblookup(user, location)
+    except Exception as err:
+        await bot.say("fuck: %r", err)
+        logger.error('lookup cmd', exc_info=True)
+        return
 
     logger.info("[lookup] %d bytes", len(res))
 

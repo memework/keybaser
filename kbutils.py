@@ -40,8 +40,13 @@ async def http_get(url, **kwargs):
         raise err
 
 async def keybase_request(url, **kwargs):
+    logger.info("[ḱbrequest] %r", url)
+
     content = await http_get(url, **kwargs)
     data = await json_load(content)
+
+    # debugging purposes
+    print(data)
 
     # check the data for errors
     status = data['status']
