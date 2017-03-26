@@ -91,7 +91,7 @@ async def lookup(ctx, user : str, location : str = ''):
         await bot.say('```\n%s\n```' % traceback.format_exc())
 
 @is_owner()
-@bot.command
+@bot.command()
 async def change_avatar():
     avatar_file = open('avatar.png', 'rb')
 
