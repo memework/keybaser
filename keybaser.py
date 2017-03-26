@@ -11,6 +11,8 @@ bot = commands.Bot(command_prefix=['kb!', 'Kb!', 'kB!', 'KB!'])
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('keybaser')
 
+_fields = ['basics', 'profile', 'proofs_summary']
+
 def is_owner():
     return commands.check(lambda ctx: ctx.message.author.id == kb_config.owner_id)
 
@@ -39,9 +41,9 @@ async def lookup(ctx, user : str, location : str = ''):
     try:
         res = None
         if location is None:
-            res = await utils.kblookup(user)
+            res = await utils.kblookup(user, 'usernames', _fields)
         else:
-            res = await utils.kblookup(user, location)
+            res = await utils.kblookup(user, location, _fields)
     except Exception as err:
         await bot.say("fuck: %r", err)
         logger.error('lookup cmd', exc_info=True)
@@ -55,16 +57,27 @@ async def lookup(ctx, user : str, location : str = ''):
 
     try:
         userdata = res['them'][0]
+        user_id = userdata['id']
+        if userdata is None:
+            await bot.say("¯\_(ツ)_/¯")
+            return
+
         basics = userdata.get('basics')
-        if basics is None:
-            await bot.say(":warning: Error getting basic data for the user `%s`" % user)
+        profile = userdata.get('profile')
+        proofs = userdata.get('proofs_summary')
+        if basics is None or profile is None or pbkeys is None:
+            await bot.say(":warning: Error getting data for the user `%s`" % user)
             return
 
         username = basics['username']
         em = discord.Embed(title=username, colour=utils.mkcolor(username))
 
+        em.add_field(name='Name', value=profile['full_name'])
+        em.add_field(name='Location', value=profile['location'])
+        em.add_field(name='Bio', value=profile['bio'])
+
         em.set_thumbnail(url=userdata['pictures']['primary']['url'])
-        em.set_footer(text='%d bytes from API' % len(str(res)))
+        em.set_footer(text='userid %s, got %d bytes from API' % (user_id, len(str(res))))
 
         await bot.say(embed=em)
     except:
