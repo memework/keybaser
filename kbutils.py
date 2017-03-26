@@ -6,7 +6,7 @@ import logging
 
 KB_API_URL = 'https://keybase.io/_/api/1.0/%s.json'
 
-KB_LOOKUP_URL = KB_API_URL % 'lookup'
+KB_LOOKUP_URL = KB_API_URL % 'user/lookup'
 
 loop = asyncio.get_event_loop()
 logger = logging.getLogger('kbutils')
@@ -44,9 +44,6 @@ async def keybase_request(url, **kwargs):
 
     content = await http_get(url, **kwargs)
     data = await json_load(content)
-
-    # debugging purposes
-    print(data)
 
     # check the data for errors
     status = data['status']
