@@ -61,9 +61,11 @@ async def keybase_request(url, **kwargs):
     logger.info("[kbreq] length: %d", len(content))
     return data
 
-async def kblookup(lookup_string, lookup_type='usernames'):
+async def kblookup(lookup_string, lookup_type='usernames', _fields=[]):
     r = {lookup_type: lookup_string}
     querystr = urllib.parse.urlencode(r)
-    url = f'{KB_LOOKUP_URL}?{querystr}'
+    fields = ','.join(_fields)
+
+    url = f'{KB_LOOKUP_URL}?{querystr}&fields={fields}'
     data = await keybase_request(url)
     return data
