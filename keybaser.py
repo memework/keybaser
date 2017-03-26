@@ -92,11 +92,12 @@ async def lookup(ctx, user : str, location : str = ''):
 
 @is_owner()
 @bot.command()
-async def change_avatar():
-    avatar_file = open('avatar.png', 'rb')
-
+async def avatar():
     try:
-        await bot.edit_profile(avatar=avatar_file)
+        avatar_file = open('avatar.png', 'rb')
+        data = avatar_file.read()
+        await bot.say('`%r`' % avatar_file)
+        await bot.edit_profile(avatar=data)
     except discord.HTTPException:
         await bot.say(":warning: Editing the profile failed.")
     except discord.InvalidArgument:
