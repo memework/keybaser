@@ -1,1 +1,2 @@
 discord.py==0.16.7
+git+https://github.com/stellarbit/aioping
