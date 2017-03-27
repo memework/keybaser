@@ -72,7 +72,7 @@ async def kblookup(lookup_string, lookup_type='usernames', _fields=[]):
 
 async def make_ping(loop, target, dump=False):
     '''Modification of https://gist.github.com/athoune/0736f73368fac38f066ac7cbf82ff5eb'''
-    create =  asyncio.create_subprocess_exec('ping', '-c', '10', target,
+    create =  asyncio.create_subprocess_exec('ping', '-c', '3', target,
                                           stdout=asyncio.subprocess.PIPE)
     proc = await create
     lines = []

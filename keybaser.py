@@ -123,9 +123,9 @@ async def lookup(ctx, user : str, location : str = ''):
 async def apiping():
     """Ping the Keybase server"""
 
-    delay = await utils.make_ping('keybase.io')
-    print(delay)
-    await bot.say(repr(delay))
+    delay = await utils.make_ping(bot.loop, 'keybase.io')
+    await bot.say('%s transmitted/%s received: min/avg/max `%s/%s/%s`ms' % \
+        (delay[0], delay[1], delay[3], delay[4], delay[5]))
 
 @is_owner()
 @bot.command()
