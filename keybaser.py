@@ -61,15 +61,12 @@ async def lookup(ctx, user : str, location : str = ''):
             await bot.say("No data found for `%s`" % user)
             return
 
-        _userdata = res.get('them')
-        if _userdata is None:
-            await bot.say("¯\_(ツ)_/¯ `_userdata == None`")
-            return
-
-        userdata = _userdata[0]
-        user_id = userdata.get('id')
-        if user_id is None:
-            await bot.say("¯\_(ツ)_/¯ `user_id == None`")
+        try:
+            _userdata = res['them']
+            userdata = res['them'][0]
+            user_id = userdata['id']
+        except:
+            await bot.say(":warning: error getting userdata for `%s`" % user)
             return
 
         basics = userdata.get('basics')
