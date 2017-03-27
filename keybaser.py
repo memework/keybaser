@@ -123,7 +123,7 @@ async def lookup(ctx, user : str, location : str = ''):
 async def apiping():
     """Ping the Keybase server"""
 
-    delay = await kbutils.make_ping('keybase.io')
+    delay = await utils.make_ping('keybase.io')
     print(delay)
     await bot.say(repr(delay))
 
