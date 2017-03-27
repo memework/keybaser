@@ -57,10 +57,19 @@ async def lookup(ctx, user : str, location : str = ''):
         return
 
     try:
-        userdata = res['them'][0]
-        user_id = userdata['id']
-        if userdata is None:
-            await bot.say("¯\_(ツ)_/¯")
+        if len(res['them']) < 1:
+            await bot.say("No data found for `%s`" % user)
+            return
+
+        _userdata = res.get('them')
+        if _userdata is None:
+            await bot.say("¯\_(ツ)_/¯ `_userdata == None`")
+            return
+
+        userdata = _userdata[0]
+        user_id = userdata.get('id')
+        if user_id is None:
+            await bot.say("¯\_(ツ)_/¯ `user_id == None`")
             return
 
         basics = userdata.get('basics')
