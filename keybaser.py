@@ -1,10 +1,11 @@
 import time
 import traceback
 import discord
-import kbutils as utils
 import logging
 
+import aioping
 from discord.ext import commands
+import kbutils as utils
 import config as kb_config
 
 bot = commands.Bot(command_prefix=['kb!', 'Kb!', 'kB!', 'KB!'])
@@ -116,6 +117,15 @@ async def lookup(ctx, user : str, location : str = ''):
         await bot.say(embed=em)
     except:
         await bot.say('```\n%s\n```' % traceback.format_exc())
+
+@is_owner()
+@bot.command()
+async def apiping():
+    """Ping the Keybase server"""
+
+    delay = await kbutils.make_ping('keybase.io')
+    print(delay)
+    await bot.say(repr(delay))
 
 @is_owner()
 @bot.command()

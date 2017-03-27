@@ -69,3 +69,23 @@ async def kblookup(lookup_string, lookup_type='usernames', _fields=[]):
     url = f'{KB_LOOKUP_URL}?{querystr}&fields={fields}'
     data = await keybase_request(url)
     return data
+
+async def make_ping(loop, target, dump=False):
+    '''Modification of https://gist.github.com/athoune/0736f73368fac38f066ac7cbf82ff5eb'''
+    create =  asyncio.create_subprocess_exec('ping', '-c', '10', target,
+                                          stdout=asyncio.subprocess.PIPE)
+    proc = await create
+    lines = []
+    while True:
+        line = await proc.stdout.readline()
+        if line == b'':
+            break
+        l = line.decode('utf8').rstrip()
+        if dump:
+            print(l)
+        lines.append(l)
+    transmited, received = [int(a.split(' ')[0]) for a
+                            in lines[-2].split(', ')[:2]]
+    stats, unit = lines[-1].split(' = ')[-1].split(' ')
+    min_, avg, max_, stddev = [float(a) for a in stats.split('/')]
+    return transmited, received, unit, min_, avg, max_, stddev
