@@ -23,6 +23,9 @@ async def on_ready():
     print(bot.user.id)
     print('------')
 
+    g = discord.Game(name='kb!help', url='fucker')
+    await bot.change_presence(game=g)
+
 @bot.command(pass_context=True)
 async def ping(ctx):
     """Ping the fucker."""
@@ -117,6 +120,7 @@ async def lookup(ctx, user : str, location : str = ''):
 @is_owner()
 @bot.command()
 async def avatar():
+    """Change Keybaser's avatar to the current avatar.png file"""
     try:
         avatar_file = open('avatar.png', 'rb')
         data = avatar_file.read()
@@ -134,6 +138,7 @@ async def avatar():
 @is_owner()
 @bot.command()
 async def shutdown():
+    """Self-explanatory"""
     await bot.say(":wave: bye u bitch!!!!!!! :wave:")
     await bot.logout()
 
