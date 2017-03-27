@@ -35,6 +35,7 @@ async def ping(ctx):
 
 @bot.command(pass_context=True)
 async def lookup(ctx, user : str, location : str = ''):
+    """Find a keybase profile"""
     if len(location.strip()) < 1:
         location = None
 
@@ -65,14 +66,18 @@ async def lookup(ctx, user : str, location : str = ''):
         basics = userdata.get('basics')
         profile = userdata.get('profile')
         proofs = userdata.get('proofs_summary')
-        if basics is None or profile is None or proofs is None:
+        pictures = userdata.get('pictures')
+        if basics is None or profile is None or proofs is None or pictures is None:
             await bot.say(":warning: Error getting data for the user `%s`" % user)
             return
 
-        username = basics['username']
-        em = discord.Embed(title=username, colour=utils.mkcolor(username))
+        username = basics.get('username')
+        if username is None:
+            await bot.say("username is None???????????")
+            return
 
-        em.set_thumbnail(url=userdata['pictures']['primary']['url'])
+        em = discord.Embed(title=username, colour=utils.mkcolor(username))
+        em.set_thumbnail(url=pictures['primary']['url'])
         em.set_footer(text='userid %s, got %d bytes from API' % (user_id, len(str(res))))
 
         em.add_field(name='Name', value=profile['full_name'])
