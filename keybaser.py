@@ -82,16 +82,9 @@ async def lookup(ctx, user : str, location : str = ''):
             await bot.say("`%r`: No basic data." % user)
             return
 
-        if profile is None:
-            await bot.say("`%r`: No profile data" % user)
-            return
-
         if proofs is None:
             await bot.say("`%r`: No proofs" % user)
             return
-
-        if pictures is None:
-            await bot.say("`%r`: No pictures" % user)
 
         username = basics.get('username')
         if username is None:
@@ -99,12 +92,16 @@ async def lookup(ctx, user : str, location : str = ''):
             return
 
         em = discord.Embed(title=username, colour=utils.mkcolor(username))
-        em.set_thumbnail(url=pictures['primary']['url'])
+
+        if pictures is not None:
+            em.set_thumbnail(url=pictures['primary']['url'])
+
         em.set_footer(text='userid %s, got %d bytes from API' % (user_id, len(str(res))))
 
-        em.add_field(name='Name', value=profile['full_name'])
-        em.add_field(name='Location', value=profile['location'])
-        em.add_field(name='Bio', value=profile['bio'])
+        if profile is not None:
+            em.add_field(name='Name', value=profile['full_name'])
+            em.add_field(name='Location', value=profile['location'])
+            em.add_field(name='Bio', value=profile['bio'])
 
         # proofs
         for proof_key in proofs['by_proof_type']:
