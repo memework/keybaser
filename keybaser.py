@@ -62,20 +62,36 @@ async def lookup(ctx, user : str, location : str = ''):
             return
 
         try:
-            _userdata = res['them']
             userdata = res['them'][0]
+        except Exception as err:
+            await bot.say(":warning: error getting `userdata` for `%s`\n`%r" % (user, err))
+            return
+
+        try:
             user_id = userdata['id']
-        except:
-            await bot.say(":warning: error getting userdata for `%s`" % user)
+        except Exception as err:
+            await bot.say(":warning: error getting user_id for `%s`\n`%r" % (user, err))
             return
 
         basics = userdata.get('basics')
         profile = userdata.get('profile')
         proofs = userdata.get('proofs_summary')
         pictures = userdata.get('pictures')
-        if basics is None or profile is None or proofs is None or pictures is None:
-            await bot.say(":warning: Error getting data for the user `%s`" % user)
+
+        if basics is None:
+            await bot.say("`%r`: No basic data." % user)
             return
+
+        if profile is None:
+            await bot.say("`%r`: No profile data" % user)
+            return
+
+        if proofs is None:
+            await bot.say("`%r`: No proofs" % user)
+            return
+
+        if pictures is None:
+            await bot.say("`%r`: No pictures" % user)
 
         username = basics.get('username')
         if username is None:
