@@ -3,7 +3,6 @@ import traceback
 import discord
 import logging
 
-import aioping
 from discord.ext import commands
 import kbutils as utils
 import config as kb_config

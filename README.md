@@ -4,9 +4,9 @@ A discord bot to integrate with the Keybase API
 ## Installing & Running
 
 ```sh
-git clone https://github.com/lkmnds/keybaser.git
+git clone https://github.com/memework/keybaser.git
 cd keybaser
 
 sudo pip3 install -U -r requirements.txt
-sudo python3 keybaser.py
+python3 keybaser.py
 ```
